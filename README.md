@@ -1,6 +1,12 @@
+Inputs:
+
+-viruses from all.IGC.pep.fa.blast.out.tab.filtered
+-AR-genes from all.rgi.out.tsv.txt and pogs.txt
+-MetaHIT paired reads
+
 STEP 1. Mapping MetaHIT reads to IGC database
-mapping MetaHIT reads to IGC database
-`qsub bowtie_map.sh` x00 #x00 means file with reads filenames
+mapping MetaHIT reads to IGC database  :
+`qsub bowtie_map.sh x00` #x00 means file with reads filenames
 
 STEP 2. Choosing "viral" and "non-viral" reads, checking if some of them were pairs, which possibly means transduction event
 detecting which of the mapped reads are "viral" and which are not. We use filtered table of Chris's 10.08 blast hits
@@ -31,6 +37,7 @@ take all valuable POG BLAST information
 `cut -f1,2,3,11 all.IGC.pep.fa.blast.out.tab.filtered > /data6/bio/metagenome_phages/IGC-viruses-2`
 
 add blasthit info to pairs table, but not yet annotation. creates file "overallpairscounted+blast"
+
 New-annot-creator.R
 
 selecting lines that we need from pogs.txt
@@ -50,5 +57,6 @@ Splitting AR-genes annotations table into useful pieces
 `cut -f15 all.rgi.out.tsv.txt > /data6/bio/metagenome_phages/AR-f15-arocategory`
 
 annotation table itself
+
 New-annot-creator-2.R
 
