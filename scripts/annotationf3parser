@@ -1,0 +1,15 @@
+from pyparsing import Suppress, alphas, nums, Word, Optional
+f = open('/data6/bio/metagenome_phages/pairs/viridannotation')
+
+id = Suppress('>' + Word(alphas) + '|') + Word(nums + '-' + '_' + alphas) + Suppress('|')
+ref = 'ref|' + Word(nums+alphas+ '.' + '_') + '| '
+annot = Word(alphas + nums + ' ' + '-' + ',' + "(" + ")" + ".")
+unimportant = 'range; ' + Word(nums + '.') + ' HHsearch'
+parse_module = id  + Optional(Suppress(ref)) + annot + Optional(Suppress(unimportant))
+
+for i in f.readlines():
+	k = parse_module.parseString(i.rstrip())
+	for i in k:
+		print i, '\t',
+	print ''
+f.close()

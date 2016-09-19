@@ -1,0 +1,10 @@
+f = open('/data6/bio/metagenome_phages/pairs/grepforparse')
+g = f.readlines()
+for j in g:
+	z = j.rstrip().split(':')
+	print z[0], '\t',  z[2], '\t',
+	for i in j.rstrip().split(':')[5:]:
+		print i, '\t',
+	print('') 
+
+f.close()

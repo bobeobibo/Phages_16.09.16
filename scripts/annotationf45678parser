@@ -1,0 +1,10 @@
+from pyparsing import Suppress, Word, alphas, nums, ZeroOrMore, Optional
+f = open('/data6/bio/metagenome_phages/pairs/virtaxdataLCNL')
+nu = '[' + Word(nums) + '] '
+tax = Word(alphas + nums + '-' + ',' + ';' + ' ')
+parser_module = ZeroOrMore(Suppress(nu) + tax)
+for i in f.readlines():
+	for j in parser_module.parseString(i.rstrip()):
+		print j, '\t',
+	print ''
+f.close()
