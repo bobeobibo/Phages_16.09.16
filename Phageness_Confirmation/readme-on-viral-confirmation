@@ -1,0 +1,15 @@
+#grepping viral genes from IGC
+nohup bash IGC-cool-grepper.sh /data6/bio/metagenome_phages/IGC-viruses /data6/bio/metagenome_phages/IGC-viruses-grep-output-pep &
+
+nohup blastp -query IGC-viruses-grep-output-pep -db /data2/bio/blast_shared_storage/swissprot -num_threads 10 -max_target_seqs=1 -evalue 0.00001 -out blast_out/IGC-viruses-pep-swsprt -outfmt '6 qseqid sseqid pident qlen slen length mismatch bitscore evalue sscinames stitle'&
+
+
+#Take only best hits from POG blast output:
+for i in `cat IGC-viruses`; do grep -m 1 $i IGC-viruses-2 >> IGC-viruses-3; done
+
+#Viral swissprot output: choosing only blast hits which are neither phages nor viruses. But we don't throw away transposones, 
+grep -v "virus" IGC-viruses-pep-swsprt | grep -v "ransposon" | grep -v "Phage" | grep -v "phage" | grep -v "retron" | grep -v "ransposase" > IGC-viruses-pep-swsprt-no-phage
+
+#Selecting transposons as a special case
+grep "ransposon" IGC-viruses-pep-swsprt > IGC-viruses-pep-swsprt-transposones # and we don't analyse this file right now because they are low blast hits
+grep "retron" IGC-viruses-pep-swsprt > IGC-viruses-pep-swsprt-retrons # but these blast hits are high
